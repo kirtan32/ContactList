@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "578446055752",
+    "project_id": "mycontacts-1acf0",
+    "storage_bucket": "mycontacts-1acf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:578446055752:android:f143487f9842cafeb0bb7d",
+        "android_client_info": {
+          "package_name": "com.kirtan.shah.mycontacts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "578446055752-96v86m58esmv7chh5tes4kc65lsak6eq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kirtan.shah.mycontacts",
+            "certificate_hash": "290f13c2efa7af79da63ae578280fd7fe8306485"
+          }
+        },
+        {
+          "client_id": "578446055752-7hqohnosojl37292lb7l83vdjcdqtkj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCBHU0qz3jKUrLOEKPXOsKCMoPW9I3idI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "578446055752-7hqohnosojl37292lb7l83vdjcdqtkj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/ic_baseline_login_24"
+        android:title="@string/login" />
+
+    <item
+        android:id="@+id/nav_signup"
+        android:icon="@drawable/ic_baseline_signup_24"
+        android:title="@string/sign_up" />
+
+</menu>
