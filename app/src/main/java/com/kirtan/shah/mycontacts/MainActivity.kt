@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity(),ClickHandler {
 
     lateinit var helloworldtextview: TextView
     lateinit var signout : MaterialButton
+    lateinit var refresh : MaterialButton
     companion object{
         lateinit var presenter : ContactPresenter
     }
@@ -54,10 +55,14 @@ class MainActivity : AppCompatActivity(),ClickHandler {
         {
             Toast.makeText(this,"Sorry! Without this permission App will not functioned",Toast.LENGTH_SHORT).show()
             requestPermission()
-            if(checkPermission())
-                OnPermissionGranted()
         }
-        //getContacts()
+
+        refresh.setOnClickListener {
+            if(checkPermission())
+            {
+                OnPermissionGranted()
+            }
+        }
         signout.setOnClickListener {
             LoginSignup.presenter.DoSignOut(this)
             doLogOut()
@@ -118,12 +123,15 @@ class MainActivity : AppCompatActivity(),ClickHandler {
             arrayOf(READ_CONTACTS, WRITE_CONTACTS),
             200
         )
+        if(checkPermission())
+            OnPermissionGranted()
     }
 
     fun InitElements()
     {
         helloworldtextview=findViewById<TextView>(R.id.sampletextview)
         viewModels = ViewModelProvider(this)[ContactViewModel::class.java]
+        refresh = findViewById<MaterialButton>(R.id.headerrefresh)
         signout = findViewById<MaterialButton>(R.id.signout)
         presenter = ContactPresenter()
     }
