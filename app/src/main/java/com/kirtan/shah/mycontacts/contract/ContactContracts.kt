@@ -11,5 +11,7 @@ public interface ContactContracts
         fun getContacts(contentResolver: ContentResolver,context: Context,viewModel: ContactViewModel)
         fun getListOfContacts(context: Context,viewModel: ContactViewModel)
         fun deleteAllContacts(context: Context,viewModel: ContactViewModel)
+        fun getEditContacts(context: Context,contact: Contact,contentResolver: ContentResolver)
+        fun updateContact(context: Context,viewModel: ContactViewModel,contact: Contact)
     }
 }

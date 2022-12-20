@@ -9,7 +9,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize  //is for passing this object in budle to comunicate between fragments , Also implement Parcelable interface
 class Contact(
     var name:String,
-    var phone:String?
+    var phone:String?,
+    var contactid:String
 ) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id:Int=0

@@ -48,18 +48,14 @@ class MainActivity : AppCompatActivity(),ClickHandler {
         InitElements()
         if(checkPermission())
         {
-            Toast.makeText(this,"Contact Read Permission Granted",Toast.LENGTH_SHORT).show()
-            recycler=findViewById<RecyclerView>(R.id.contactRecyclerView)
-            this.let {
-                presenter.deleteAllContacts(it,viewModels)
-                presenter.getContacts(contentResolver,it,viewModels)
-                setRecyclerView()
-            }
+            OnPermissionGranted()
         }
         else
         {
             Toast.makeText(this,"Sorry! Without this permission App will not functioned",Toast.LENGTH_SHORT).show()
             requestPermission()
+            if(checkPermission())
+                OnPermissionGranted()
         }
         //getContacts()
         signout.setOnClickListener {
@@ -74,6 +70,17 @@ class MainActivity : AppCompatActivity(),ClickHandler {
             finish()
         }
 
+    }
+
+    fun OnPermissionGranted()
+    {
+        Toast.makeText(this,"Contact Read Permission Granted",Toast.LENGTH_SHORT).show()
+        recycler=findViewById<RecyclerView>(R.id.contactRecyclerView)
+        this.let {
+            presenter.deleteAllContacts(it,viewModels)
+            presenter.getContacts(contentResolver,it,viewModels)
+            setRecyclerView()
+        }
     }
 
     fun setRecyclerView()
@@ -206,8 +213,10 @@ class MainActivity : AppCompatActivity(),ClickHandler {
 
             this.let {
                 contact.name = firstname.text.toString()+" "+lastname.text.toString()
-                viewModels.update(this,contact)
-                editContact(contact)
+                //viewModels.update(this,contact)
+                presenter.updateContact(it,viewModels,contact)
+                //getEditContacts(contact)
+                presenter.getEditContacts(it, contact,contentResolver)
                 setRecyclerView()
             }
             dialogStart.dismiss()
@@ -277,52 +286,50 @@ class MainActivity : AppCompatActivity(),ClickHandler {
             contectresolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
 
         try {
-            if (cursor != null) {
-                if (cursor.moveToFirst()) {
-                    val rawContactId = cursor.getString(0)
-                    val ops = ArrayList<ContentProviderOperation>()
-                    val contentValues = ContentValues()
-                    contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
-                    contentValues
-                        .put(
-                            ContactsContract.Data.MIMETYPE,
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
-                        )
-                    contentValues.put(
-                        ContactsContract.CommonDataKinds.Phone.NUMBER,
-                        phoneNumber
+
+            if (cursor!!.moveToFirst()) {
+                val rawContactId = cursor.getString(0)
+                val ops = ArrayList<ContentProviderOperation>()
+                val contentValues = ContentValues()
+                contentValues.put(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+                contentValues
+                    .put(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
                     )
-                    contentValues.put(
-                        ContactsContract.CommonDataKinds.Phone.TYPE,
-                        ContactsContract.CommonDataKinds.Phone.TYPE_WORK
-                    )
-                    ops.add(
-                        ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                            .withValues(contentValues).build()
-                    )
-                    val contactId: String = ContactsContract.Contacts.CONTENT_URI.getLastPathSegment().toString()
-                    ops.add(
-                        ContentProviderOperation
-                            .newUpdate(ContactsContract.Data.CONTENT_URI)
-                            .withSelection(
-                                ContactsContract.Data.CONTACT_ID
-                                        + "=? AND "
-                                        + ContactsContract.Data.MIMETYPE
-                                        + "=?", arrayOf(
-                                    contact.phone,
-                                    ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
-                                )
+                contentValues.put(
+                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                    phoneNumber
+                )
+                contentValues.put(
+                    ContactsContract.CommonDataKinds.Phone.TYPE,
+                    ContactsContract.CommonDataKinds.Phone.TYPE_WORK
+                )
+                ops.add(
+                    ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                        .withValues(contentValues).build()
+                )
+                val contactId: String = contact.contactid//contactUri.getLastPathSegment()
+                ops.add(
+                    ContentProviderOperation
+                        .newUpdate(ContactsContract.Data.CONTENT_URI)
+                        .withSelection(
+                            ContactsContract.Data.CONTACT_ID
+                                    + "=? AND "
+                                    + ContactsContract.Data.MIMETYPE
+                                    + "=?", arrayOf(
+                                contactId,
+                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE
                             )
-                            .withValue(
-                                ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
-                                contact.name
-                            ).build()
-                    )
-                    contentResolver.applyBatch(
-                        ContactsContract.AUTHORITY, ops
-                    )
-                }
-                cursor.close()
+                        )
+                        .withValue(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                            contact.name
+                        ).build()
+                )
+                contentResolver.applyBatch(
+                    ContactsContract.AUTHORITY, ops
+                )
             }
 
         } finally {

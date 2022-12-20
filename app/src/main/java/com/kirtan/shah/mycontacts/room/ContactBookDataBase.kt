@@ -14,7 +14,7 @@ abstract class ContactBookDataBase : RoomDatabase()
     {
         fun get(context:Context):ContactBookDataBase
         {
-            return Room.databaseBuilder(context,ContactBookDataBase::class.java,"contact").build()
+            return Room.databaseBuilder(context,ContactBookDataBase::class.java,"contacts").build()
         }
     }
 
