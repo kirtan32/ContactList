@@ -1,14 +1,22 @@
 # ContactList
 Contact List App
 
+
 Minimum SDK Version: 28
+
 App Version:1.0
+
 Contact room database version: 1
 
+
 Front End: Kotlin 
+
 Project Architecture: MVP (Model View Presenter)
+
 Contact Back End: Room Database
+
 Login Sign Up Back End: Firebase
+
 
  
  ![image](https://user-images.githubusercontent.com/50762218/208508991-842db494-33ea-45ba-b002-9282d5f4d543.png)
